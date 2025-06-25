@@ -13,8 +13,11 @@ $db = $database->connect();
 // Instantiate event object
 $event = new Event($db);
 
+// Check for user ID
+$userId = isset($_GET['userId']) ? $_GET['userId'] : null;
+
 // Event query
-$result = $event->read();
+$result = $event->read($userId);
 // Get row count
 $num = $result->rowCount();
 
@@ -33,8 +36,7 @@ if ($num > 0) {
             'date' => $date,
             'location' => $location,
             'description' => $description,
-            // For now, we hardcode a status. This will be dynamic later.
-            'status' => 'upcoming'
+            'status' => $status
         );
 
         // Push to "data"

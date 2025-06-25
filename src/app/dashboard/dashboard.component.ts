@@ -95,13 +95,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onStatusChange(change: MatButtonToggleChange, event: Event): void {
-    const updatedEvent = { ...event, status: change.value };
-    this.eventService.updateEvent(updatedEvent).subscribe(() => {
-      // Optionally refresh just this event in the UI for better performance
-      const index = this.events.findIndex((e) => e.id === updatedEvent.id);
-      if (index !== -1) {
-        this.events[index] = updatedEvent;
-      }
+    const newStatus = change.value;
+    this.eventService.updateEventStatus(event.id, newStatus).subscribe({
+      next: () => {
+        // Update the event status in the local array to reflect the change immediately
+        const eventIndex = this.events.findIndex((e) => e.id === event.id);
+        if (eventIndex !== -1) {
+          this.events[eventIndex].status = newStatus;
+        }
+        const allEventIndex = this.allEvents.findIndex(
+          (e) => e.id === event.id
+        );
+        if (allEventIndex !== -1) {
+          this.allEvents[allEventIndex].status = newStatus;
+        }
+      },
+      error: (err) => {
+        console.error('Failed to update event status:', err);
+        // Optionally, revert the change in the UI if the API call fails
+        change.source.value = event.status;
+      },
     });
   }
 

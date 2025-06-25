@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { EventFormComponent } from '../event-form/event-form.component';
+import { AuthService } from './auth.service';
 
 interface GetEventsResponse {
   data: Event[];
@@ -15,9 +16,15 @@ interface GetEventsResponse {
 })
 export class EventService {
   private apiUrl = 'http://localhost/eventScheduler/api/event/read.php'; // Adjust if your local server URL is different
+  private updateStatusUrl =
+    'http://localhost/eventScheduler/api/event/update_status.php';
   private events: Event[] = []; // This will now serve as a cache
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(
+    private http: HttpClient,
+    private dialog: MatDialog,
+    private authService: AuthService
+  ) {}
 
   openEventDialog(event?: Event): Observable<any> {
     const dialogRef = this.dialog.open(EventFormComponent, {
@@ -32,12 +39,31 @@ export class EventService {
   }
 
   getEvents(): Observable<Event[]> {
-    return this.http.get<GetEventsResponse>(this.apiUrl).pipe(
+    const user = this.authService.currentUserValue;
+    let url = this.apiUrl;
+    if (user) {
+      url += `?userId=${user.id}`;
+    }
+    return this.http.get<GetEventsResponse>(url).pipe(
       map((response) => {
         this.events = response.data;
         return this.events;
       })
     );
+  }
+
+  updateEventStatus(eventId: number, status: string): Observable<any> {
+    const user = this.authService.currentUserValue;
+    if (!user) {
+      // Or handle this case as you see fit, e.g., by throwing an error or returning a specific Observable
+      return of({ message: 'User not logged in.' });
+    }
+    const payload = {
+      userId: user.id,
+      eventId: eventId,
+      status: status,
+    };
+    return this.http.post(this.updateStatusUrl, payload);
   }
 
   addEvent(event: Omit<Event, 'id' | 'status'>): Observable<Event> {
