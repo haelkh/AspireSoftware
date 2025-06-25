@@ -2,14 +2,10 @@
 <mat-toolbar color="primary" class="mat-elevation-z4">
   <span>🗓️ Event Scheduler</span>
 
-  <mat-form-field class="search-field" appearance="fill" style="margin-top: 20px;">
+  <mat-form-field class="search-field" appearance="fill">
     <mat-label>Search Events</mat-label>
     <mat-icon matPrefix>search</mat-icon>
-    <input
-      matInput
-      (keyup)="onSearch($event)"
-      placeholder="Search by title..."
-    />
+    <input matInput (keyup)="onSearch($event)" />
   </mat-form-field>
 
   <!-- This spacer pushes the following items to the right -->

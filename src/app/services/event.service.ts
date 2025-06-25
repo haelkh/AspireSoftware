@@ -1,37 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Event } from '../models/event.model';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
+interface GetEventsResponse {
+  data: Event[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private events: Event[] = [
-    {
-      id: 1,
-      title: 'Angular Conference',
-      date: new Date('2024-10-26T10:00:00'),
-      location: 'Online',
-      description: 'The biggest Angular conference in the world.',
-      status: 'upcoming',
-    },
-    {
-      id: 2,
-      title: 'Tech Meetup',
-      date: new Date('2024-11-15T18:30:00'),
-      location: 'New York, NY',
-      description: 'A meetup for tech enthusiasts.',
-      status: 'attending',
-    },
-  ];
+  private apiUrl = 'http://localhost/eventScheduler/api/event/read.php'; // Adjust if your local server URL is different
+  private events: Event[] = []; // This will now serve as a cache
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getEvents(): Observable<Event[]> {
-    return of(this.events);
+    return this.http.get<GetEventsResponse>(this.apiUrl).pipe(
+      map((response) => {
+        this.events = response.data;
+        return this.events;
+      })
+    );
   }
 
   addEvent(event: Omit<Event, 'id' | 'status'>): Observable<Event> {
+    // This will be replaced with an HTTP POST request
+    console.log('Adding event (mock):', event);
     const newEvent: Event = {
       ...event,
       id: this.getNextId(),
@@ -42,18 +39,26 @@ export class EventService {
   }
 
   deleteEvent(eventId: number): Observable<void> {
+    // This will be replaced with an HTTP DELETE request
+    console.log('Deleting event (mock):', eventId);
     this.events = this.events.filter((event) => event.id !== eventId);
     return of(undefined);
   }
 
   getEventById(id: number): Observable<Event | undefined> {
+    // This will be replaced with an HTTP GET request
+    console.log('Getting event by ID (mock):', id);
     const event = this.events.find((e) => e.id === id);
     return of(event);
   }
 
   updateEvent(updatedEvent: Event): Observable<Event> {
+    // This will be replaced with an HTTP PUT request
+    console.log('Updating event (mock):', updatedEvent);
     const index = this.events.findIndex((e) => e.id === updatedEvent.id);
-    this.events[index] = updatedEvent;
+    if (index !== -1) {
+      this.events[index] = updatedEvent;
+    }
     return of(updatedEvent);
   }
 

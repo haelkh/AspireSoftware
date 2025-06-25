@@ -8,6 +8,7 @@ mat-toolbar {
   color: white;
   font-family: "Poppins", sans-serif;
   padding: 0 24px;
+  height: 100px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   align-items: center;
 }
@@ -24,7 +25,7 @@ mat-toolbar {
 }
 
 :host ::ng-deep .search-field .mat-mdc-form-field-flex {
-  height: 40px !important;
+  height: 50px !important;
   background-color: rgba(255, 255, 255, 0.15) !important;
   border-radius: 20px !important;
 }
@@ -39,7 +40,7 @@ mat-toolbar {
 }
 
 :host ::ng-deep .search-field .mat-mdc-text-field-wrapper {
-  height: 40px;
+  height: 50px;
 }
 
 :host ::ng-deep .search-field .mat-mdc-form-field-infix {
@@ -59,6 +60,10 @@ mat-toolbar {
   .search-field:not(.mat-form-field-no-label-float)
   .mat-mdc-floating-label.mdc-floating-label--float-above {
   top: 25px !important; /* Adjust based on your layout */
+}
+
+:host ::ng-deep .search-field input.mat-mdc-input-element {
+  color: white !important;
 }
 
 .user-button mat-icon {
