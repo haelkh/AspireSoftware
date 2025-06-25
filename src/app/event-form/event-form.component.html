@@ -1,5 +1,5 @@
 <div class="form-container">
-  <h2>Create Event</h2>
+  <h2>{{ isEditMode ? "Edit Event" : "Create Event" }}</h2>
   <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>
@@ -34,7 +34,7 @@
       type="submit"
       [disabled]="!eventForm.valid"
     >
-      Create
+      {{ isEditMode ? "Update" : "Create" }}
     </button>
   </form>
 </div>

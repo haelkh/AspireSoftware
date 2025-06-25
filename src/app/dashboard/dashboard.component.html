@@ -8,10 +8,24 @@
     <mat-card-content>
       <p><strong>Location:</strong> {{ event.location }}</p>
       <p>{{ event.description }}</p>
+      <mat-button-toggle-group
+        [value]="event.status"
+        (change)="onStatusChange($event, event)"
+      >
+        <mat-button-toggle value="attending">Attending</mat-button-toggle>
+        <mat-button-toggle value="maybe">Maybe</mat-button-toggle>
+        <mat-button-toggle value="declined">Declined</mat-button-toggle>
+      </mat-button-toggle-group>
     </mat-card-content>
     <mat-card-actions>
-      <span>Status: {{ event.status }}</span>
       <span class="spacer"></span>
+      <button
+        mat-icon-button
+        color="primary"
+        [routerLink]="['/event/edit', event.id]"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
       <button mat-icon-button color="warn" (click)="deleteEvent(event.id)">
         <mat-icon>delete</mat-icon>
       </button>

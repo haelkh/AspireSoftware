@@ -41,6 +41,22 @@ export class EventService {
     return of(newEvent);
   }
 
+  deleteEvent(eventId: number): Observable<void> {
+    this.events = this.events.filter((event) => event.id !== eventId);
+    return of(undefined);
+  }
+
+  getEventById(id: number): Observable<Event | undefined> {
+    const event = this.events.find((e) => e.id === id);
+    return of(event);
+  }
+
+  updateEvent(updatedEvent: Event): Observable<Event> {
+    const index = this.events.findIndex((e) => e.id === updatedEvent.id);
+    this.events[index] = updatedEvent;
+    return of(updatedEvent);
+  }
+
   private getNextId(): number {
     return this.events.length > 0
       ? Math.max(...this.events.map((e) => e.id)) + 1
