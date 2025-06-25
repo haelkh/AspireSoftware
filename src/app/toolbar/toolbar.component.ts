@@ -58,6 +58,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.authService.openLoginDialog();
   }
 
+  signup(): void {
+    this.authService.openSignupDialog();
+  }
+
   addEvent(): void {
     this.eventService.openEventDialog().subscribe((result) => {
       if (result) {

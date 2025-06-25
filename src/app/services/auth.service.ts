@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../models/user.model'; // We will create this model next
 import { LoginDialogComponent } from '../auth/login-dialog/login-dialog.component'; // Import the component
+import { SignupDialogComponent } from '../auth/signup-dialog/signup-dialog.component'; // Import signup component
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,15 @@ export class AuthService {
 
   openLoginDialog(): void {
     this.dialog.open(LoginDialogComponent, {
+      width: '400px',
+      panelClass: 'auth-dialog-container',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+    });
+  }
+
+  openSignupDialog(): void {
+    this.dialog.open(SignupDialogComponent, {
       width: '400px',
       panelClass: 'auth-dialog-container',
       enterAnimationDuration: '300ms',

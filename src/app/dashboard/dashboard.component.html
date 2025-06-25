@@ -36,13 +36,14 @@
       <mat-button-toggle-group
         [value]="event.status"
         (change)="onStatusChange($event, event)"
+        [disabled]="!currentUser"
       >
         <mat-button-toggle value="attending">Attending</mat-button-toggle>
         <mat-button-toggle value="maybe">Maybe</mat-button-toggle>
         <mat-button-toggle value="declined">Declined</mat-button-toggle>
       </mat-button-toggle-group>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="currentUser?.role === 'admin'">
       <span class="spacer"></span>
       <button mat-icon-button color="primary" (click)="editEvent(event)">
         <mat-icon>edit</mat-icon>

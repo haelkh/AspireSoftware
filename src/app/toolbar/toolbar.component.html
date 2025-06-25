@@ -13,11 +13,16 @@
 
   <ng-container *ngIf="!currentUser; else loggedIn">
     <button mat-button (click)="login()">Login</button>
-    <button mat-raised-button color="accent" (click)="login()">Sign Up</button>
+    <button mat-raised-button color="accent" (click)="signup()">Sign Up</button>
   </ng-container>
 
   <ng-template #loggedIn>
-    <button mat-raised-button color="accent" (click)="addEvent()">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="addEvent()"
+      *ngIf="currentUser?.role === 'admin'"
+    >
       <mat-icon>add</mat-icon>
       Add Event
     </button>
