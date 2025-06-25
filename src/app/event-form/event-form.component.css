@@ -1,1 +1,50 @@
 /* No custom styles for now */
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 48px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.form-container {
+  max-width: 500px;
+  width: 100%;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+h2 {
+  font-weight: 600;
+  font-size: 2rem;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #343a40;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+button[mat-raised-button] {
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
