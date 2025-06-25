@@ -10,7 +10,7 @@ import { SignupDialogComponent } from '../auth/signup-dialog/signup-dialog.compo
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'https://eventschedulermk1.unaux.com/api/auth';
+  private apiUrl = 'http://localhost/eventScheduler/api/auth';
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 

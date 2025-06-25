@@ -15,9 +15,9 @@ interface GetEventsResponse {
   providedIn: 'root',
 })
 export class EventService {
-  private apiUrl = 'https://eventschedulermk1.unaux.com/api/event/read.php'; // Adjust if your local server URL is different
+  private apiUrl = 'http://localhost/eventScheduler/api/event/read.php'; // Adjust if your local server URL is different
   private updateStatusUrl =
-    'https://eventschedulermk1.unaux.com/api/event/update_status.php';
+    'http://localhost/eventScheduler/api/event/update_status.php';
   private events: Event[] = []; // This will now serve as a cache
 
   constructor(
