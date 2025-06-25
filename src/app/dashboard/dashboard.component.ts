@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Event } from '../models/event.model';
 import { EventService } from '../services/event.service';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,9 @@ import { SearchService } from '../services/search.service';
 import { RouterModule } from '@angular/router';
 import { AiService } from '../services/ai.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../services/auth.service';
+import { User } from '../models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,15 +32,18 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   events: Event[] = [];
   private allEvents: Event[] = [];
   summarizingEventIds = new Set<number>();
+  currentUser: User | null = null;
+  private authSubscription!: Subscription;
 
   constructor(
     private eventService: EventService,
     private searchService: SearchService,
-    private aiService: AiService
+    private aiService: AiService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +51,13 @@ export class DashboardComponent implements OnInit {
     this.searchService.searchTerm$.subscribe((term) => {
       this.filterEvents(term);
     });
+    this.authSubscription = this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.authSubscription.unsubscribe();
   }
 
   editEvent(event: Event): void {
