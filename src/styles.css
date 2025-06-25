@@ -13,3 +13,8 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+/* Custom Dialog Panel Style */
+.auth-dialog-container .mat-mdc-dialog-container .mdc-dialog__surface {
+  border-radius: 16px;
+}

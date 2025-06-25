@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.dialog-container {
+  padding: 16px;
+}
+
+h2 {
+  font-weight: 600;
+  color: #333;
+}
+
+.dialog-subtitle {
+  color: #666;
+  margin-top: -16px;
+  margin-bottom: 24px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.mat-mdc-dialog-actions {
+  justify-content: flex-end;
+  padding: 0 24px 24px;
+}
+
+button[mat-flat-button] {
+  min-width: 120px;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.error-message {
+  color: #f44336;
+  padding: 8px 0;
+  font-size: 14px;
+  text-align: center;
+}

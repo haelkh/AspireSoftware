@@ -11,6 +11,8 @@ import {
 } from '@angular/material/button-toggle';
 import { SearchService } from '../services/search.service';
 import { RouterModule } from '@angular/router';
+import { AiService } from '../services/ai.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,6 +24,7 @@ import { RouterModule } from '@angular/router';
     MatIconModule,
     MatButtonToggleModule,
     RouterModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -29,10 +32,12 @@ import { RouterModule } from '@angular/router';
 export class DashboardComponent implements OnInit {
   events: Event[] = [];
   private allEvents: Event[] = [];
+  summarizingEventIds = new Set<number>();
 
   constructor(
     private eventService: EventService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private aiService: AiService
   ) {}
 
   ngOnInit(): void {
@@ -42,9 +47,37 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  editEvent(event: Event): void {
+    this.eventService.openEventDialog(event).subscribe((result) => {
+      if (result) {
+        this.refreshEvents();
+      }
+    });
+  }
+
   deleteEvent(eventId: number): void {
     this.eventService.deleteEvent(eventId).subscribe(() => {
       this.refreshEvents();
+    });
+  }
+
+  summarizeDescription(event: Event): void {
+    if (!event.description || this.summarizingEventIds.has(event.id)) return;
+
+    this.summarizingEventIds.add(event.id);
+    this.aiService.summarizeDescription(event.description).subscribe({
+      next: (response) => {
+        // Update the description for this event in both arrays
+        const update = (e: Event) =>
+          e.id === event.id ? { ...e, description: response.summary } : e;
+        this.events = this.events.map(update);
+        this.allEvents = this.allEvents.map(update);
+        this.summarizingEventIds.delete(event.id);
+      },
+      error: (err) => {
+        console.error('Error summarizing description:', err);
+        this.summarizingEventIds.delete(event.id);
+      },
     });
   }
 

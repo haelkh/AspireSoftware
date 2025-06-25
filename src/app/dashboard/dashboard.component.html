@@ -7,7 +7,32 @@
     </mat-card-header>
     <mat-card-content>
       <p><strong>Location:</strong> {{ event.location }}</p>
-      <p>{{ event.description }}</p>
+      <p [title]="event.description">{{ event.description }}</p>
+
+      <div
+        *ngIf="event.description && event.description.length > 150"
+        class="summarize-action"
+      >
+        <button
+          mat-stroked-button
+          color="accent"
+          (click)="summarizeDescription(event)"
+          [disabled]="summarizingEventIds.has(event.id)"
+        >
+          <div class="button-content">
+            <mat-spinner
+              *ngIf="summarizingEventIds.has(event.id)"
+              diameter="20"
+            ></mat-spinner>
+            <span>{{
+              summarizingEventIds.has(event.id)
+                ? "Summarizing..."
+                : "✨ Summarize with AI"
+            }}</span>
+          </div>
+        </button>
+      </div>
+
       <mat-button-toggle-group
         [value]="event.status"
         (change)="onStatusChange($event, event)"
@@ -19,11 +44,7 @@
     </mat-card-content>
     <mat-card-actions>
       <span class="spacer"></span>
-      <button
-        mat-icon-button
-        color="primary"
-        [routerLink]="['/event/edit', event.id]"
-      >
+      <button mat-icon-button color="primary" (click)="editEvent(event)">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button color="warn" (click)="deleteEvent(event.id)">

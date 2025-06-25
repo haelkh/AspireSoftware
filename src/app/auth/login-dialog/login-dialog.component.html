@@ -1,0 +1,35 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title>Welcome Back!</h2>
+  <div mat-dialog-content>
+    <p class="dialog-subtitle">Log in to manage your events.</p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" required />
+      </mat-form-field>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="isLoading"
+    >
+      <div class="button-content">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span>{{ isLoading ? "Logging in..." : "Login" }}</span>
+      </div>
+    </button>
+  </div>
+</div>

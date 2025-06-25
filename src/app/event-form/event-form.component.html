@@ -1,5 +1,30 @@
 <div class="form-container">
   <h2>{{ isEditMode ? "Edit Event" : "Create Event" }}</h2>
+
+  <div class="ai-parser">
+    <mat-form-field appearance="fill" class="ai-textarea">
+      <mat-label>Create with Natural Language</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="naturalLanguageText"
+        placeholder="e.g., Schedule a 'Project Phoenix Kick-off' for tomorrow at 3 PM in the main boardroom. We will discuss the project timeline and goals."
+      ></textarea>
+    </mat-form-field>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="onParseText()"
+      [disabled]="isParsing"
+    >
+      <div class="button-content">
+        <mat-spinner *ngIf="isParsing" diameter="20"></mat-spinner>
+        <span>{{ isParsing ? "Analyzing..." : "Create with AI" }}</span>
+      </div>
+    </button>
+  </div>
+
+  <div class="separator">OR</div>
+
   <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Title</mat-label>

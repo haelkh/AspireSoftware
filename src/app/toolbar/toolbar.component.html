@@ -11,18 +11,22 @@
   <!-- This spacer pushes the following items to the right -->
   <span class="spacer"></span>
 
-  <button mat-raised-button color="accent" routerLink="/new-event">
-    <mat-icon>add</mat-icon>
-    Add Event
-  </button>
+  <ng-container *ngIf="!currentUser; else loggedIn">
+    <button mat-button (click)="login()">Login</button>
+    <button mat-raised-button color="accent" (click)="login()">Sign Up</button>
+  </ng-container>
 
-  <!-- Placeholder for user login status -->
-  <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-button">
-    <mat-icon>account_circle</mat-icon>
-  </button>
-
-  <mat-menu #userMenu="matMenu">
-    <button mat-menu-item>Profile</button>
-    <button mat-menu-item routerLink="/login">Logout</button>
-  </mat-menu>
+  <ng-template #loggedIn>
+    <button mat-raised-button color="accent" (click)="addEvent()">
+      <mat-icon>add</mat-icon>
+      Add Event
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="user-button">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>Welcome, {{ currentUser?.username }}</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </ng-template>
 </mat-toolbar>

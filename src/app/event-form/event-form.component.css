@@ -25,6 +25,48 @@ h2 {
   color: #343a40;
 }
 
+.ai-parser {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ai-textarea textarea {
+  min-height: 80px;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.separator {
+  text-align: center;
+  font-weight: 500;
+  color: #adb5bd;
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.separator:not(:empty)::before {
+  margin-right: 0.25em;
+}
+
+.separator:not(:empty)::after {
+  margin-left: 0.25em;
+}
+
 form {
   display: flex;
   flex-direction: column;

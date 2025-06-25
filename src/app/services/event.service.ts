@@ -3,6 +3,8 @@ import { Event } from '../models/event.model';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { EventFormComponent } from '../event-form/event-form.component';
 
 interface GetEventsResponse {
   data: Event[];
@@ -15,7 +17,19 @@ export class EventService {
   private apiUrl = 'http://localhost/eventScheduler/api/event/read.php'; // Adjust if your local server URL is different
   private events: Event[] = []; // This will now serve as a cache
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
+
+  openEventDialog(event?: Event): Observable<any> {
+    const dialogRef = this.dialog.open(EventFormComponent, {
+      width: '600px',
+      data: event, // Pass event data for editing, or null for creating
+      panelClass: 'auth-dialog-container',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+    });
+
+    return dialogRef.afterClosed();
+  }
 
   getEvents(): Observable<Event[]> {
     return this.http.get<GetEventsResponse>(this.apiUrl).pipe(
