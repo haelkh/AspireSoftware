@@ -1,0 +1,8 @@
+/* toolbar.component.scss */
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-button {
+  margin-left: 16px;
+}
