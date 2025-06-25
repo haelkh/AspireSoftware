@@ -28,7 +28,7 @@ import { Event } from '../models/event.model';
     MatNativeDateModule,
   ],
   templateUrl: './event-form.component.html',
-  styleUrls: ['./event-form.component.css'],
+  styleUrl: './event-form.component.css',
 })
 export class EventFormComponent implements OnInit {
   eventForm: FormGroup;

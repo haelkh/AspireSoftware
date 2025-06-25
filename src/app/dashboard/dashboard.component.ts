@@ -10,6 +10,7 @@ import {
   MatButtonToggleChange,
 } from '@angular/material/button-toggle';
 import { SearchService } from '../services/search.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ import { SearchService } from '../services/search.service';
     MatButtonModule,
     MatIconModule,
     MatButtonToggleModule,
+    RouterModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
